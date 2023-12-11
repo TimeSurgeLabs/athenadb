@@ -2,6 +2,16 @@ name = "athenadb"
 main = "src/index.ts"
 compatibility_date = "2023-12-06"
 
+
+[[vectorize]]
+binding = "VECTORIZE_INDEX" # available within your Worker on env.VECTORIZE_INDEX
+index_name = "athenadb"
+
+[[d1_databases]]
+binding = "DB"                                       # i.e. available in your Worker on env.DB
+database_name = "athenadb"
+database_id = "ccc1c189-64a3-4dd4-a1e3-4c94954c723b"
+
 # Variable bindings. These are arbitrary, plaintext strings (similar to environment variables)
 # Note: Use secrets to store sensitive data.
 # Docs: https://developers.cloudflare.com/workers/platform/environment-variables
