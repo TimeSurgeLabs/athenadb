@@ -4,12 +4,14 @@
 	"private": true,
 	"scripts": {
 		"deploy": "wrangler deploy",
+		"create-db": "wrangler d1 create athenadb",
 		"init-db": "wrangler d1 execute athenadb --file=./schema.sql",
+		"create-vector": "wrangler vectorize create athenadb --dimensions=768 --metric=cosine",
 		"dev": "wrangler dev --remote",
 		"start": "wrangler dev"
 	},
 	"devDependencies": {
-		"@cloudflare/ai": "^1.0.37",
+		"@cloudflare/ai": "^1.0.39",
 		"@cloudflare/workers-types": "^4.20231121.0",
 		"itty-router": "^3.0.12",
 		"typescript": "^5.0.4",

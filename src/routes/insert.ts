@@ -1,28 +1,20 @@
 import { Ai } from '@cloudflare/ai';
+import type { IRequest } from 'itty-router';
 
 import generateUUID from '../utils/uuid';
-import { IRequest } from 'itty-router';
+import type { EmbeddingsResponse } from '../types';
 
-const INSERT_QUERY = 'INSERT INTO embeddings (namespace, text) VALUES (?, ?)';
+const INSERT_QUERY = 'INSERT INTO entries (uuid, namespace, text) VALUES (?, ?, ?)';
 
 type InsertBody = {
 	input?: string;
 	inputs?: string[];
 };
 
-type EmbeddingsResponse = {
-	batchedInput: {
-		text: string[];
-	};
-	batchedResponse: {
-		shape: [number, number];
-		data: number[][];
-	};
-};
-
 type EmbeddingPair = {
 	text: string;
 	embedding: number[];
+	uuid: string;
 };
 
 const handleInsert = async (request: IRequest, env: Env): Promise<Response> => {
@@ -56,23 +48,22 @@ const handleInsert = async (request: IRequest, env: Env): Promise<Response> => {
 
 	try {
 		const embeddings = await ai.run('@cf/baai/bge-base-en-v1.5', { text });
-		const { batchedInput, batchedResponse } = embeddings as EmbeddingsResponse;
+		const { data } = embeddings as EmbeddingsResponse;
 		// iterate through the batched input text and response data at the same time
 		const embeddingPairs: EmbeddingPair[] = [];
-		for (let i = 0; i < batchedInput.text.length; i++) {
-			const text = batchedInput.text[i];
-			const embedding = batchedResponse.data[i];
+		for (let i = 0; i < text.length; i++) {
+			const t = text[i];
+			const embedding = data[i];
 			// add to the array of embedding pairs
-			embeddingPairs.push({ text, embedding });
+			embeddingPairs.push({ text: t, embedding, uuid: generateUUID() });
 		}
-		const inserts = embeddingPairs.map(({ text }) => {
-			return db.prepare(INSERT_QUERY).bind(namespace, text);
+		const inserts = embeddingPairs.map(({ text, uuid }) => {
+			return db.prepare(INSERT_QUERY).bind(uuid, namespace, text);
 		});
-		const vectors = embeddingPairs.map(({ embedding, text }) => {
-			return { id: generateUUID(), namespace, values: embedding, metadata: { text } };
+		const vectors = embeddingPairs.map(({ embedding, text, uuid }) => {
+			return { id: uuid, namespace, values: embedding, metadata: { text } };
 		});
-		await db.batch(inserts);
-		await env.VECTORIZE_INDEX.insert(vectors);
+		await Promise.all([db.batch(inserts), env.VECTORIZE_INDEX.insert(vectors)]);
 		return Response.json({ vectors });
 	} catch (e: unknown) {
 		console.error(e);
