@@ -12,6 +12,9 @@ binding = "DB"                                       # i.e. available in your Wo
 database_name = "athenadb"
 database_id = "ccc1c189-64a3-4dd4-a1e3-4c94954c723b"
 
+[ai]
+binding = "AI" # i.e. available in your Worker on env.AI
+
 # Variable bindings. These are arbitrary, plaintext strings (similar to environment variables)
 # Note: Use secrets to store sensitive data.
 # Docs: https://developers.cloudflare.com/workers/platform/environment-variables
