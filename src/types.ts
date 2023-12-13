@@ -6,7 +6,7 @@ export type EmbeddingsResponse = {
 export type DBEntry = {
 	id: number;
 	uuid: string;
-	namespace: string;
+	space: string;
 	text: string;
 	created_at: string;
 };

@@ -42,14 +42,18 @@ Inserts text data into the database. Text is converted into embeddings using Clo
 
 ### `POST /:namespace/query`
 
-Queries the database for similar text embeddings.
+Queries the database for similar text embeddings. Specify `?limit=number` in the URL to specify the number of results to return. The default is 5, the maximum is 20.
 * **Request Body**:
-  + `input`: A single string for querying.
-  + `inputs`: An array of strings for batch querying.
+  + `input`: A single string for querying. (max 1024 characters)
+  + `inputs`: An array of strings for batch querying. (each max 1024 characters)
 
 ### `GET /:namespace/:uuid`
 
-Retrieves a specific entry from the database using its unique identifier (UUID).
+Retrieves a specific entry from the database using its unique identifier (UUID). Add query parameters `?vector=true` to retrieve the vector along with the entry. Add query parameters `?db_id=true` to retrieve the SQL table ID along with the entry.
+
+### `GET /:namespace?limit=10&offset=0`
+
+Retrieves all entries from the given namespace. Limit can be set to a maximum of 100 entries. Add query parameters `?vector=true` to retrieve the vectors along with the entries. Add query parameters `?db_id=true` to retrieve the SQL table ID along with the entries.
 
 ### `DELETE /:namespace/:uuid`
 

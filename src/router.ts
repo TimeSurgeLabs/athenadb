@@ -2,7 +2,7 @@ import { Router } from 'itty-router';
 import handleInsert from './routes/insert';
 import handleQuery from './routes/query';
 import handleEmbeddings from './routes/embeddings';
-import handleGet from './routes/get';
+import { handleGetItem, handleGetQuery } from './routes/get';
 import handleDelete from './routes/delete';
 
 // now let's create a router (note the lack of "new")
@@ -12,7 +12,9 @@ router.post('/:namespace/insert', handleInsert);
 
 router.post('/:namespace/query', handleQuery);
 
-router.get('/:namespace/:uuid', handleGet);
+router.get('/:namespace/:uuid', handleGetItem);
+
+router.get('/:namespace', handleGetQuery);
 
 router.delete('/:namespace/:uuid', handleDelete);
 

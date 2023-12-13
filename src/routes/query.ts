@@ -17,6 +17,16 @@ const handleQuery = async (request: IRequest, env: Env): Promise<Response> => {
 
 	// get the namespace from the request params
 	const { namespace } = request.params;
+	let { limit } = request.query;
+	limit = limit || '5';
+	if (isNaN(Number(limit))) {
+		return Response.json({ error: 'invalid limit or offset' }, { status: 400 });
+	}
+	if (Number(limit) > 20 || Number(limit) < 1) {
+		limit = '20';
+	}
+
+	let topK = Number(limit);
 
 	const body = (await request.json()) as QueryBody;
 
@@ -33,7 +43,7 @@ const handleQuery = async (request: IRequest, env: Env): Promise<Response> => {
 	} else if (inputs) {
 		// if any of the texts are longer than 1024 characters, return an error
 		if (inputs.some((t) => t.length > 1024)) {
-			return Response.json({ error: 'input too long' }, { status: 400 });
+			return Response.json({ error: 'one of the inputs is too long' }, { status: 400 });
 		}
 		text = inputs;
 	} else {
@@ -44,7 +54,7 @@ const handleQuery = async (request: IRequest, env: Env): Promise<Response> => {
 		const embeddings = await ai.run('@cf/baai/bge-base-en-v1.5', { text });
 		const { data } = embeddings as EmbeddingsResponse;
 		const embedding = data[0];
-		const { matches } = await env.VECTORIZE_INDEX.query(embedding, { topK: 5, namespace });
+		const { matches } = await env.VECTORIZE_INDEX.query(embedding, { topK, namespace });
 
 		const selects = matches.map((m) => {
 			return db.prepare(SELECT_QUERY).bind(m.id);
@@ -60,7 +70,7 @@ const handleQuery = async (request: IRequest, env: Env): Promise<Response> => {
 				if (!match) return;
 				return {
 					id: match.id,
-					namespace: r.namespace,
+					namespace: r.space,
 					score: match.score,
 					text: r.text,
 					created_at: r.created_at,

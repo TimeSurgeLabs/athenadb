@@ -4,7 +4,7 @@ import type { IRequest } from 'itty-router';
 import generateUUID from '../utils/uuid';
 import type { EmbeddingsResponse } from '../types';
 
-const INSERT_QUERY = 'INSERT INTO entries (uuid, namespace, text) VALUES (?, ?, ?)';
+const INSERT_QUERY = 'INSERT INTO entries (uuid, space, text) VALUES (?, ?, ?)';
 
 type InsertBody = {
 	input?: string;
@@ -39,7 +39,7 @@ const handleInsert = async (request: IRequest, env: Env): Promise<Response> => {
 	} else if (inputs) {
 		// if any of the texts are longer than 1024 characters, return an error
 		if (inputs.some((t) => t.length > 1024)) {
-			return Response.json({ error: 'input too long' }, { status: 400 });
+			return Response.json({ error: 'one of the inputs is too long' }, { status: 400 });
 		}
 		text = inputs;
 	} else {
