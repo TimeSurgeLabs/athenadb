@@ -116,3 +116,7 @@ fetch('https://athenadb.yourusername.workers.dev/embeddings', {
   body: JSON.stringify({ text: 'Your text here' })
 })
 ```
+
+## Clients
+
+- [Python client](https://gist.github.com/chand1012/f85a87073e709c51a8a75c69151de907)
