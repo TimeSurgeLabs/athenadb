@@ -57,7 +57,11 @@ Retrieves all entries from the given namespace. Limit can be set to a maximum of
 
 ### `DELETE /:namespace/:uuid`
 
-Deletes a specific entry from the database using its unique identifier (UUID).
+Deletes a specific entry from the database using its unique identifier (UUID). **Warning**: This action is irreversible.
+
+### `DELETE /:namespace`
+
+Deletes all entries from the given namespace. **Warning**: This action is irreversible.
 
 ### `POST /embeddings`
 
@@ -65,7 +69,7 @@ Generates embeddings for given text without storing it in the database.
 * **Request Body**:
   + `text`: A string whose embedding is to be generated.
 
-### `GET /test`
+### `GET /`
 
 A test endpoint that returns 'Hello world!' as a response.
 
@@ -119,4 +123,4 @@ fetch('https://athenadb.yourusername.workers.dev/embeddings', {
 
 ## Clients
 
-- [Python client](https://gist.github.com/chand1012/f85a87073e709c51a8a75c69151de907)
+* [Python client](https://gist.github.com/chand1012/f85a87073e709c51a8a75c69151de907)

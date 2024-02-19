@@ -4,6 +4,7 @@ import handleQuery from './routes/query';
 import handleEmbeddings from './routes/embeddings';
 import { handleGetItem, handleGetQuery } from './routes/get';
 import handleDelete from './routes/delete';
+import handleDeleteNamespace from './routes/deleteNamespace';
 
 // now let's create a router (note the lack of "new")
 const router = Router();
@@ -18,9 +19,11 @@ router.get('/:namespace', handleGetQuery);
 
 router.delete('/:namespace/:uuid', handleDelete);
 
+router.delete('/:namespace', handleDeleteNamespace);
+
 router.post('/embeddings', handleEmbeddings);
 
-router.get('/test', () => new Response('Hello world!'));
+router.get('/', () => new Response('Hello world!'));
 
 // 404 for everything else
 router.all('*', () => new Response('Not Found.', { status: 404 }));
