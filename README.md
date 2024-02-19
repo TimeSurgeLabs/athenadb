@@ -12,7 +12,7 @@ AthenaDB is a simple, serverless, distributed vector database that can be used a
 ## Getting Started
 
 * Downloads and install [Wrangler](https://developers.cloudflare.com/workers/cli-wrangler/install-update).
-* Log in to Wrangler with `wrangler login`.
+* Log in to Wrangler with `wrangler login`. AthenaDB **requires** a $5/month Workers subscription to function.
 * Run the following commands:
 
 ```bash

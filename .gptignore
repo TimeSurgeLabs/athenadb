@@ -1,0 +1,9 @@
+LICENSE
+package-lock.json
+Justfile
+.prettierrc
+.nvmrc
+.editorconfig
+.vscode/**
+.gptignore
+tsconfig.json
