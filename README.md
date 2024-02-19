@@ -1,5 +1,5 @@
 <h1 align="center">🦉AthenaDB⚡️</h1>
-<h3 align="center">Serverless, distributed Vector Database as an API written with Cloudflare Workers AI, D1, and Vectorize.</h3>
+<h3 align="center">Serverless, distributed Vector Database as an API written with Cloudflare Workers, Workers AI, D1, and Vectorize.</h3>
 
 AthenaDB is a simple, serverless, distributed vector database that can be used as an API. It is written with [Cloudflare Workers AI](https://ai.cloudflare.com), [D1](https://developers.cloudflare.com/d1/), [Vectorize](https://developers.cloudflare.com/vectorize/).
 
