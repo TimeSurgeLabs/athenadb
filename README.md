@@ -5,10 +5,12 @@ AthenaDB is a simple, serverless, distributed vector database that can be used a
 
 ## Features
 
-* Simple API endpoints for inserting, querying, retrieving, and deleting vector text data.
-* Embedding generation without storing the text in the database.
-* Distributed database with data replication across multiple data centers.
-
+- **Simple API Endpoints**: AthenaDB provides straightforward endpoints for various database operations, making it accessible for developers of all skill levels.
+- **Distributed Nature**: With data replication across multiple data centers, AthenaDB ensures high availability and resilience.
+- **Built-In Data Replication**: Due to Cloudflare Workers’ underlying architecture, data is replicated across data centers automatically.
+- **Scalability**: AthenaDB is designed to handle large amounts of vector text data, making it suitable for projects with high data volumes.
+- **Serverless Architecture**: With AthenaDB being serverless, you don't have to worry about managing infrastructure, allowing for more focus on development.
+- 
 ## Getting Started
 
 * Downloads and install [Wrangler](https://developers.cloudflare.com/workers/cli-wrangler/install-update).
